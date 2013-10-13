@@ -163,6 +163,9 @@ class DigestMailer < Mailer
 		dbg "Default setting for whether digest is active for users: %s" % default.to_s
 		members = Member.find(:all, :conditions => ["project_id = " + project[:id].to_s]).each { |m|
 			user = m.user
+			if user.nil?
+				next
+			end
 			puts "Found user %s" % user.id
 			if user && user.active? && user.mail
 				if user.digest_account.nil?
